@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using school_app;
+using school_app.Mappers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ApplicationDbConext>(
     options => options.UseSqlServer("name=DefaultConnection")
 );
+
+builder.Services.AddAutoMapper(typeof(Program));
 
 var app = builder.Build();
 

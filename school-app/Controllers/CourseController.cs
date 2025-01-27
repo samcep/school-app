@@ -1,5 +1,7 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using school_app.Dtos;
 using school_app.Entities;
 
 namespace school_app.Controllers
@@ -10,12 +12,16 @@ namespace school_app.Controllers
     {
 
         private readonly ILogger<CourseController> _logger;
+        private readonly IMapper _mapper;
         private  ApplicationDbConext _dbContext;
 
-        public CourseController(ILogger<CourseController> logger , ApplicationDbConext dbContext) 
+        public CourseController(ILogger<CourseController> logger , 
+            ApplicationDbConext dbContext,
+            IMapper mapper) 
         {
             _logger = logger;
             _dbContext = dbContext;
+            _mapper = mapper;
         }
 
 
@@ -28,8 +34,9 @@ namespace school_app.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> PostCourseAsync(Course course)
+        public async Task<ActionResult> PostCourseAsync(CourseCreateDto courseCreateDto)
         {
+            var course = _mapper.Map<CourseCreateDto, Course>(courseCreateDto);
             _dbContext.Add(course);
             await _dbContext.SaveChangesAsync();
             return Ok(course);
