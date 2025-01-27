@@ -46,6 +46,7 @@ namespace school_app.Controllers
             }
             _dbContext.Update(course);
             await _dbContext.SaveChangesAsync();
+            _logger.LogInformation("a record has been updated");
             return Ok();
         }
 
